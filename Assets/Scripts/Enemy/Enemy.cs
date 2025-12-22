@@ -58,4 +58,8 @@ public abstract class Enemy : MonoBehaviour
             isResting = false;
         }
     }
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
 }

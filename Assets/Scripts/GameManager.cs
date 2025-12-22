@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("Enemy Settings")]
     [SerializeField] private List<GameObject> enemyPrefabs;
     [SerializeField] private int maxAnimal = 10;
+    private Animator player_anim;
     private int nbAnimal = 0;
     private float multiplier = 0.1f;
     private int multiplierUpdateTime = 1;
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        player_anim = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         StartCoroutine("SpawnEnemyRate");
     }
     
@@ -58,6 +60,10 @@ public class GameManager : MonoBehaviour
         if (activatePowerDecrease)
         {
             Point -= multiplier * Time.deltaTime;
+            if (Point <= 0)
+            {
+                player_anim.SetTrigger("die");
+            }
             timeSurvived += Time.deltaTime;
             MultiplierUpdate();
         }
@@ -89,7 +95,7 @@ public class GameManager : MonoBehaviour
         nbAnimal++;
         int randomEnemy = Random.Range(0, enemyPrefabs.Count);
         float randomX = Random.Range(-8f, 8f);
-        Vector3 spawnPos = new Vector3(randomX, -1.6f, 0f);
+        Vector3 spawnPos = new Vector3(randomX, 10f, 0f);
         Instantiate(enemyPrefabs[randomEnemy], spawnPos, Quaternion.identity);
     }
     public void Awake()
