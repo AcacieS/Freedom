@@ -25,10 +25,11 @@ public class GameManager : MonoBehaviour
     private int multiplierUpdateTime = 1;
     private bool activatePowerDecrease = false;
     private float respawnRate = 5f;
-    private float score = 0f;
     public void AddPoint(float newPoint)
     {
         Point+=newPoint;
+        //SPAWN NEW TEXT.
+        //pointText.text = "+ " + point.ToString();
     }
     public float Point {
         get => point;

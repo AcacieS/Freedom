@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MainCharacter : MonoBehaviour
@@ -7,7 +8,8 @@ public class MainCharacter : MonoBehaviour
     private Animator anim;
     private Vector3 startScale;
     [SerializeField] private float moveSpeed = 5f;
-    private EnemyInfo currentEnemyInfo;
+    [SerializeField] private EnemyInfo currentEnemyInfo;
+    [SerializeField] private GameObject currentEnemy;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -34,12 +36,13 @@ public class MainCharacter : MonoBehaviour
     {
         if(currentEnemyInfo == null) return;
         GameManager.Instance.AddPoint(currentEnemyInfo.point);
+        Debug.Log("Enemy Defeated");
+        Destroy(currentEnemy);
     }
     private void Movement()
     {
         float moveInput = Input.GetAxis("Horizontal");
         anim.SetFloat("PlayerSpeed", Mathf.Abs(rb.linearVelocityX));
-        anim.SetFloat("PlayerY", rb.linearVelocityY);
         if (moveInput > 0.01f)
         {
             transform.localScale = new Vector3(-startScale.x, startScale.y, startScale.z);
@@ -56,6 +59,8 @@ public class MainCharacter : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
+            Debug.Log("Enemy in range");
+            currentEnemy = other.gameObject;
             currentEnemyInfo = other.gameObject.GetComponent<Enemy>().GetEnemyInfo();
         }
     }
@@ -65,6 +70,7 @@ public class MainCharacter : MonoBehaviour
         {
             if(currentEnemyInfo == other.gameObject.GetComponent<Enemy>().GetEnemyInfo())
             {
+                currentEnemy = null;
                 currentEnemyInfo = null;
             }
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyInfo : ScriptableObject
 {
     public string type;
+    public GameObject prefab;
     public float point = 1f;
     public float speed = 3f;
     public float minRestRate = 2f;
