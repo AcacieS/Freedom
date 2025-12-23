@@ -129,7 +129,6 @@ public class GameManager : MonoBehaviour
     {
         if(nbAnimal >= maxAnimal * multiplierUpdateTime)
         {
-            Debug.LogError("MaxAnimal reached"+maxAnimal * multiplierUpdateTime);
             return;
         } 
         nbAnimal++;

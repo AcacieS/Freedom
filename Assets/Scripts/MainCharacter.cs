@@ -48,6 +48,7 @@ public class MainCharacter : MonoBehaviour
     }
     private void Win()
     {
+        //TODO: Get to Other Scene
         Debug.Log("You Win!");
     }
     
@@ -85,9 +86,8 @@ public class MainCharacter : MonoBehaviour
         enemiesDie = new Dictionary<GameObject, EnemyInfo>();
         foreach(KeyValuePair<GameObject, EnemyInfo> enemy in enemiesInRange)
         {
+            enemy.Key.GetComponent<Enemy>().Attacked();
             GameManager.Instance.AddPoint(enemy.Value.point);
-            enemy.Key.GetComponent<Animator>().SetTrigger("die");
-            enemy.Key.GetComponent<Enemy>().Death();
             InitScore(enemy.Value.point, enemy.Key);
             SpawnParticle(enemy.Key);
             enemiesDie.Add(enemy.Key, enemy.Value);

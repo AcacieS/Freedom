@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
@@ -10,6 +11,7 @@ public abstract class Enemy : MonoBehaviour
     private Animator anim;
     private SpriteRenderer spriteRenderer;
     private bool isDead = false;
+    CinemachineImpulseSource impulseSource ;
     public virtual void Start()
     {
         int randomDir = Random.Range(0,2);
@@ -19,6 +21,7 @@ public abstract class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sortingOrder = Random.Range(0, 2) == 0? 1: -1;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
     public EnemyInfo GetEnemyInfo()
     {
@@ -50,6 +53,16 @@ public abstract class Enemy : MonoBehaviour
         }
         anim.SetFloat("Speed", Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocityX));
     }
+    
+    public void Attacked()
+    {
+        GetComponent<Animator>().SetTrigger("die");
+        isDead = true;
+        transform.GetComponent<Rigidbody2D>().linearVelocityX = 0;
+        impulseSource.GenerateImpulse();
+        
+    }
+    
     private IEnumerator RestLoop()
     {
         while (true && !isDead)
@@ -68,11 +81,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
     
-    public void Death()
-    {
-        isDead = true;
-        transform.GetComponent<Rigidbody2D>().linearVelocityX = 0;
-    }
+    
     public void DestroySelf()
     {
         Destroy(gameObject);
