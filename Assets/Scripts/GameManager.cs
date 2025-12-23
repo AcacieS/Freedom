@@ -98,10 +98,6 @@ public class GameManager : MonoBehaviour
     {
         nbAnimal--;
     }
-    public void Die()
-    {
-        
-    }
     
     private void MultiplierUpdate()
     {
@@ -143,10 +139,15 @@ public class GameManager : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
-            
         }
         DontDestroyOnLoad(gameObject);
         
+    }
+    public void ResetGame(){
+        Instance = null;
+
+        // destroy this persistent object
+        Destroy(gameObject);
     }
     public void SetHungry(int hungryAmount)
     {

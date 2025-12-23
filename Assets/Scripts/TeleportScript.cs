@@ -23,15 +23,16 @@ public class TeleportScript : MonoBehaviour
             if(other.gameObject.layer == LayerMask.NameToLayer("Enemy") && other.transform.parent==null)
             {
                 Debug.LogWarning("who?"+other.gameObject.name+"");
-                other.gameObject.GetComponent<Enemy>().ChangeDirection();
+                //other.gameObject.GetComponent<Enemy>().ChangeDirection();
             }
+            float sizeX =other.gameObject.GetComponent<SpriteRenderer>().bounds.size.x;
             if(otherWall.name == "WallL")
             {
-                other.gameObject.transform.position =  new Vector3(otherWall.position.x+10f,other.gameObject.transform.position.y,other.gameObject.transform.position.z);
+                other.gameObject.transform.position =  new Vector3(otherWall.position.x+10f+sizeX,other.gameObject.transform.position.y,other.gameObject.transform.position.z);
             }
             else if(otherWall.name == "WallR")
             {
-                other.gameObject.transform.position = otherWall.position - new Vector3(10f,other.gameObject.transform.position.y,other.gameObject.transform.position.z);
+                other.gameObject.transform.position = new Vector3(otherWall.position.x-10f-sizeX,other.gameObject.transform.position.y,other.gameObject.transform.position.z);
             }
             else
             {

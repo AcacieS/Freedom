@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class MainCharacter : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -49,7 +51,11 @@ public class MainCharacter : MonoBehaviour
     private void Win()
     {
         //TODO: Get to Other Scene
+        SceneManager.LoadScene("Scenes/WinScene");
         Debug.Log("You Win!");
+    }
+    public void Die(){
+        SimpleGameOver.Instance.ShowGameOver();
     }
     
     // Update is called once per frame
@@ -71,15 +77,10 @@ public class MainCharacter : MonoBehaviour
             anim.SetTrigger("attack");
         }
     }
-    public void Die()
-    {
-        Debug.LogWarning("Player Die");
-    }
 
     public void Attack()
     {
         if(enemiesInRange.Count == 0) {
-            isAttacking = false;
             return;
         }
         
@@ -97,6 +98,9 @@ public class MainCharacter : MonoBehaviour
         {
             enemiesInRange.Remove(enemy.Key);
         }
+        
+    }
+    public void AttackEnd(){
         isAttacking = false;
     }
 

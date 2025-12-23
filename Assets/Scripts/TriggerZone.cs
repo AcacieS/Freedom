@@ -13,7 +13,6 @@ public class TriggerZone : MonoBehaviour
         if (other.CompareTag(collisionTag))
         {
             OnTriggerEnterEvent?.Invoke();
-            Debug.Log("Hey New Camera + "+ CameraManager.getActiveCamera() + "other: "+other.gameObject);
         }
     }
 }

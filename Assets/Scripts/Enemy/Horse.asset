@@ -15,7 +15,7 @@ MonoBehaviour:
   type: Horse
   prefab: {fileID: 8776641443507462082, guid: 398f9f3e9bb6f8b4180a128975ad4bf0, type: 3}
   point: 10
-  speed: 7
+  speed: 9
   minRestRate: 5
   maxRestRate: 7
   minRest: 4
