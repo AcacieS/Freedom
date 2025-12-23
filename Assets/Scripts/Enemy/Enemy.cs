@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour
     private Vector3 startScale;
     private Animator anim;
     private SpriteRenderer spriteRenderer;
+    private bool isDead = false;
     public virtual void Start()
     {
         int randomDir = Random.Range(0,2);
@@ -25,6 +26,7 @@ public abstract class Enemy : MonoBehaviour
     }
     public void Update()
     {
+        if(isDead) return;
         Movement();
     }
     public virtual void Movement()
@@ -46,7 +48,7 @@ public abstract class Enemy : MonoBehaviour
     }
     private IEnumerator RestLoop()
     {
-        while (true)
+        while (true && !isDead)
         {
             // Wait before resting
             float randomRate = Random.Range(enemyInfo.minRestRate, enemyInfo.maxRestRate);
@@ -60,6 +62,12 @@ public abstract class Enemy : MonoBehaviour
             direction = randomDir == 0 ? -1 : 1;
             isResting = false;
         }
+    }
+    
+    public void Death()
+    {
+        isDead = true;
+        transform.GetComponent<Rigidbody2D>().linearVelocityX = 0;
     }
     public void DestroySelf()
     {

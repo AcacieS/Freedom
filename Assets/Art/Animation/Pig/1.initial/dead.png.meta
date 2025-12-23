@@ -109,12 +109,12 @@ TextureImporter:
       name: dead_0
       rect:
         serializedVersion: 2
-        x: 415
-        y: 1099
-        width: 1234
-        height: 692
+        x: 0
+        y: 0
+        width: 2064
+        height: 2752
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -127,55 +127,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: dead_1
-      rect:
-        serializedVersion: 2
-        x: 1190
-        y: 1725
-        width: 197
-        height: 410
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9673f7d9729bc76d0800000000000000
-      internalID: -2991312472683628695
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dead_2
-      rect:
-        serializedVersion: 2
-        x: 765
-        y: 1092
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5e1c94996bede1d30800000000000000
-      internalID: 4404202361452085733
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 695f7a8c191e0f04fb77de29dcc6c4e0
     internalID: 0
     vertices: []
     indices: 
@@ -183,11 +139,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":2064.0,"y":2752.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       dead_0: 3604192591476135790
-      dead_1: -2991312472683628695
-      dead_2: 4404202361452085733
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

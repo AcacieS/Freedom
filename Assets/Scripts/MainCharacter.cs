@@ -18,7 +18,7 @@ public class MainCharacter : MonoBehaviour
     private Vector3 moveUp = new Vector3(0, 5f, 0);
     [SerializeField] private Color endColor = new Color(1, 1, 1, 0);
     [SerializeField] private AnimatorOverrideController[] mcAnimOverride;
-    private int currentState = -1;
+    private int currentState = 0;
     [SerializeField] private ParticleSystem bloodParticles;
     private bool isAttacking = false;
     
@@ -28,32 +28,38 @@ public class MainCharacter : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         startScale = transform.localScale;
+        mc_changeBody();
     }
     public void mc_changeBody()
     {
         
         if (currentState <= mcAnimOverride.Length)
         {
-            if(currentState == mcAnimOverride.Length)
+            if(currentState >= mcAnimOverride.Length)
             {
                 Win();
                 return;
             }
-            currentState++;
+            
             anim.runtimeAnimatorController = mcAnimOverride[currentState];
+            currentState++;
         }
         
     }
     private void Win()
     {
-        
+        Debug.Log("You Win!");
     }
     
     // Update is called once per frame
     void Update()
     {
-        Movement();
-        AttackAnim();
+        if (!GameManager.Instance.getDeath())
+        {
+            Movement();
+            AttackAnim();
+        }
+        
     }
     void AttackAnim()
     {
@@ -64,7 +70,10 @@ public class MainCharacter : MonoBehaviour
             anim.SetTrigger("attack");
         }
     }
-    
+    public void Die()
+    {
+        Debug.LogWarning("Player Die");
+    }
 
     public void Attack()
     {
@@ -78,6 +87,7 @@ public class MainCharacter : MonoBehaviour
         {
             GameManager.Instance.AddPoint(enemy.Value.point);
             enemy.Key.GetComponent<Animator>().SetTrigger("die");
+            enemy.Key.GetComponent<Enemy>().Death();
             InitScore(enemy.Value.point, enemy.Key);
             SpawnParticle(enemy.Key);
             enemiesDie.Add(enemy.Key, enemy.Value);

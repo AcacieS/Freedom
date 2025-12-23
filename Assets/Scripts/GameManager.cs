@@ -18,12 +18,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ground;
 
     [Header("Multiplier Settings")]
-    [SerializeField]private int activatePowerNb = 10;
-    [SerializeField] private float timeSurvived = 0;
-    
+    [SerializeField] private int activatePowerNb = 10;
     [SerializeField] private int multiplierUpdateRate = 30;
     [SerializeField] private float multiplierUpdateAdd = 1f;
     private float multiplier = 0.5f;
+    private float timeSurvived = 0f;
     private int multiplierUpdateTime = 1;
     private bool activatePowerDecrease = false;
     private float respawnRate = 5f;
@@ -38,9 +37,15 @@ public class GameManager : MonoBehaviour
     private MainCharacter player;
     [SerializeField] private float hungryAmount = 0;
     
+    private bool isDead = false;
     // -------------------------------------------------- POINT ------------------------------------------------
+    public bool getDeath()
+    {
+        return isDead;
+    }
     public void AddPoint(float newPoint)
     {
+        if(isDead) return;
         Point+=newPoint;
         hungryAmount+=newPoint;
         slider.value = hungryAmount;
@@ -75,12 +80,13 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        if (activatePowerDecrease)
+        if (activatePowerDecrease && !isDead)
         {
             hungryAmount -= multiplier * Time.deltaTime;
             slider.value = hungryAmount;
             if (hungryAmount <= 0)
             {
+                isDead = true;
                 player_anim.SetTrigger("die");
             }
             timeSurvived += Time.deltaTime;
@@ -99,7 +105,7 @@ public class GameManager : MonoBehaviour
     
     private void MultiplierUpdate()
     {
-        if(timeSurvived > multiplierUpdateRate*multiplierUpdateTime)
+        if(Point > multiplierUpdateRate*multiplierUpdateTime)
         {
             multiplierUpdateTime++;
             player.mc_changeBody(); 
@@ -142,4 +148,9 @@ public class GameManager : MonoBehaviour
     {
         slider.value = hungryAmount;
     }
+    public float GetTimeSurvived()
+    {
+        return timeSurvived;
+    }
+
 }
