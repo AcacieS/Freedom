@@ -20,6 +20,7 @@ public class MainCharacter : MonoBehaviour
     [SerializeField] private AnimatorOverrideController[] mcAnimOverride;
     private int currentState = -1;
     [SerializeField] private ParticleSystem bloodParticles;
+    private bool isAttacking = false;
     
     void Start()
     {
@@ -27,6 +28,24 @@ public class MainCharacter : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         startScale = transform.localScale;
+    }
+    public void mc_changeBody()
+    {
+        
+        if (currentState <= mcAnimOverride.Length)
+        {
+            if(currentState == mcAnimOverride.Length)
+            {
+                Win();
+                return;
+            }
+            currentState++;
+            anim.runtimeAnimatorController = mcAnimOverride[currentState];
+        }
+        
+    }
+    private void Win()
+    {
         
     }
     
@@ -38,15 +57,22 @@ public class MainCharacter : MonoBehaviour
     }
     void AttackAnim()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            
+            if(isAttacking) return;
+            isAttacking = true;
             anim.SetTrigger("attack");
         }
     }
+    
+
     public void Attack()
     {
-        if(enemiesInRange.Count == 0) return;
+        if(enemiesInRange.Count == 0) {
+            isAttacking = false;
+            return;
+        }
+        
         enemiesDie = new Dictionary<GameObject, EnemyInfo>();
         foreach(KeyValuePair<GameObject, EnemyInfo> enemy in enemiesInRange)
         {
@@ -55,14 +81,15 @@ public class MainCharacter : MonoBehaviour
             InitScore(enemy.Value.point, enemy.Key);
             SpawnParticle(enemy.Key);
             enemiesDie.Add(enemy.Key, enemy.Value);
+            GameManager.Instance.RemoveAnimal();
         }
         foreach(KeyValuePair<GameObject, EnemyInfo> enemy in enemiesDie)
         {
             enemiesInRange.Remove(enemy.Key);
         }
-
-        Debug.Log("Enemy Defeated");
+        isAttacking = false;
     }
+
     private void SpawnParticle(GameObject enemy)
     {
         ParticleSystem ps = Instantiate(bloodParticles, enemy.transform.position, Quaternion.identity);
