@@ -1,8 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-
 public class MainCharacter : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -11,13 +10,17 @@ public class MainCharacter : MonoBehaviour
     private Vector3 startScale;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private GameObject scoreUIPrefab;
-    private TextMeshPro scoreText;
-    private GameObject scoreUI;
-    private EnemyInfo currentEnemyInfo;
-    private GameObject currentEnemy;
+    
+    private Dictionary<GameObject, EnemyInfo> enemiesInRange = new Dictionary<GameObject, EnemyInfo>();
+    private Dictionary<GameObject, EnemyInfo> enemiesDie = new Dictionary<GameObject, EnemyInfo>();
+    // private List<EnemyGO> currentEnemies = new List<EnemyGO>();
     private float showDuration = 1.2f;
     private Vector3 moveUp = new Vector3(0, 5f, 0);
     [SerializeField] private Color endColor = new Color(1, 1, 1, 0);
+    [SerializeField] private AnimatorOverrideController[] mcAnimOverride;
+    private int currentState = -1;
+    [SerializeField] private ParticleSystem bloodParticles;
+    
     void Start()
     {
         moveUp = new Vector3(0, transform.position.y + 5f, 0);
@@ -43,42 +46,56 @@ public class MainCharacter : MonoBehaviour
     }
     public void Attack()
     {
-        if(currentEnemyInfo == null) return;
-        GameManager.Instance.AddPoint(currentEnemyInfo.point);
+        if(enemiesInRange.Count == 0) return;
+        enemiesDie = new Dictionary<GameObject, EnemyInfo>();
+        foreach(KeyValuePair<GameObject, EnemyInfo> enemy in enemiesInRange)
+        {
+            GameManager.Instance.AddPoint(enemy.Value.point);
+            enemy.Key.GetComponent<Animator>().SetTrigger("die");
+            InitScore(enemy.Value.point, enemy.Key);
+            SpawnParticle(enemy.Key);
+            enemiesDie.Add(enemy.Key, enemy.Value);
+        }
+        foreach(KeyValuePair<GameObject, EnemyInfo> enemy in enemiesDie)
+        {
+            enemiesInRange.Remove(enemy.Key);
+        }
+
         Debug.Log("Enemy Defeated");
-        currentEnemy.GetComponent<Animator>().SetTrigger("die");
-        initScore(currentEnemyInfo.point);
-        currentEnemy = null;
-        currentEnemyInfo = null;
     }
-    public void initScore(float point)
+    private void SpawnParticle(GameObject enemy)
     {
-        scoreUI = Instantiate(scoreUIPrefab, transform.position, Quaternion.identity);
-        scoreText = scoreUI.GetComponent<TextMeshPro>();
+        ParticleSystem ps = Instantiate(bloodParticles, enemy.transform.position, Quaternion.identity);
+        Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
+    }
+    private void InitScore(float point, GameObject enemy)
+    {
+        GameObject scoreUI = Instantiate(scoreUIPrefab, transform.position, Quaternion.identity);
+        TextMeshPro scoreText = scoreUI.GetComponent<TextMeshPro>();
         scoreText.text = "+"+point.ToString();
-        StartCoroutine(FadeAndMove());
+        StartCoroutine(FadeAndMove(enemy, scoreUI, scoreText));
     }
-    
-    
-    private IEnumerator FadeAndMove()
-{
-    Vector3 startPos = currentEnemy.transform.position;
-    Vector3 targetPos = startPos + moveUp;
-    Color startColor = scoreText.color;
 
-    float timePassed = 0f;
-
-    while (timePassed < showDuration)
+    private IEnumerator FadeAndMove(GameObject enemy, GameObject scoreUI, TextMeshPro scoreText)
     {
-        float t = timePassed / showDuration;
+        Vector3 startPos = enemy.transform.position;
+        Vector3 targetPos = startPos + moveUp;
+        Color startColor = scoreText.color;
 
-        scoreUI.transform.position = Vector3.Lerp(startPos, targetPos, t);
-        scoreText.color = Color.Lerp(startColor, endColor, t);
+        float timePassed = 0f;
 
-        timePassed += Time.deltaTime;
-        yield return null;
+        while (timePassed < showDuration)
+        {
+            float t = timePassed / showDuration;
+
+            scoreUI.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            scoreText.color = Color.Lerp(startColor, endColor, t);
+
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(scoreUI);
     }
-}
     private void Movement()
     {
         float moveInput = Input.GetAxis("Horizontal");
@@ -100,18 +117,30 @@ public class MainCharacter : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Debug.Log("Enemy in range");
-            currentEnemy = other.gameObject;
-            currentEnemyInfo = other.gameObject.GetComponent<Enemy>().GetEnemyInfo();
+            if (!enemiesInRange.ContainsKey(other.gameObject) && !enemiesDie.ContainsKey(other.gameObject))
+            {
+                enemiesInRange.Add(other.gameObject, other.gameObject.GetComponent<Enemy>().GetEnemyInfo());
+            }
+            
+        }
+    }
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if (!enemiesInRange.ContainsKey(other.gameObject) && !enemiesDie.ContainsKey(other.gameObject))
+            {
+                enemiesInRange.Add(other.gameObject, other.gameObject.GetComponent<Enemy>().GetEnemyInfo());
+            }
         }
     }
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            if(currentEnemyInfo == other.gameObject.GetComponent<Enemy>().GetEnemyInfo())
+            if (enemiesInRange.ContainsKey(other.gameObject) && !enemiesDie.ContainsKey(other.gameObject))
             {
-                currentEnemy = null;
-                currentEnemyInfo = null;
+                enemiesInRange.Remove(other.gameObject);
             }
         }
     }

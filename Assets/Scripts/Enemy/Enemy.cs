@@ -8,6 +8,7 @@ public abstract class Enemy : MonoBehaviour
     private bool isResting = false;
     private Vector3 startScale;
     private Animator anim;
+    private SpriteRenderer spriteRenderer;
     public virtual void Start()
     {
         int randomDir = Random.Range(0,2);
@@ -15,6 +16,8 @@ public abstract class Enemy : MonoBehaviour
         StartCoroutine(RestLoop());
         startScale = transform.localScale;
         anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sortingOrder = Random.Range(0, 2) == 0? 1: -1;
     }
     public EnemyInfo GetEnemyInfo()
     {

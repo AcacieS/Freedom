@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         {
             activatePowerDecrease = true;
         }
-        pointText.text = "Point: " + point.ToString();
+        pointText.text = "Point: " + point.ToString("F2");
     }
 
     void Start()
@@ -67,6 +67,10 @@ public class GameManager : MonoBehaviour
             timeSurvived += Time.deltaTime;
             MultiplierUpdate();
         }
+        
+    }
+    public void Die()
+    {
         
     }
     
