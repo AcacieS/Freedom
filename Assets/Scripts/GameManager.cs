@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private float timeSurvived = 0f;
     private int multiplierUpdateTime = 1;
     private bool activatePowerDecrease = false;
-    private float respawnRate = 5f;
+    // private float respawnRate = 5f;
     private float maxHealth = 100f;
 
     [Header("Enemy Settings")]
@@ -120,13 +120,18 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             SpawnEnemy();
+            float respawnRate = Random.Range(0.5f, 1f);
             yield return new WaitForSeconds(respawnRate);
         }
     }
 
     private void SpawnEnemy()
     {
-        if(nbAnimal >= maxAnimal*multiplierUpdateTime) return;
+        if(nbAnimal >= maxAnimal * multiplierUpdateTime)
+        {
+            Debug.LogError("MaxAnimal reached"+maxAnimal * multiplierUpdateTime);
+            return;
+        } 
         nbAnimal++;
         int randomEnemy = Random.Range(0, enemyPrefabs.Count);
         float size = ground.transform.position.x-ground.GetComponent<SpriteRenderer>().bounds.size.x/2;

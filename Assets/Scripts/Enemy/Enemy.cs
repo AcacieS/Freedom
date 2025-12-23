@@ -29,6 +29,10 @@ public abstract class Enemy : MonoBehaviour
         if(isDead) return;
         Movement();
     }
+    public void ChangeDirection()
+    {
+        direction *= -1;
+    }
     public virtual void Movement()
     {
         if (!isResting)
