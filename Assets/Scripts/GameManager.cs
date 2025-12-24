@@ -144,12 +144,17 @@ public class GameManager : MonoBehaviour
         
     }
     public void ResetGame(){
+        nbAnimal = 0;
+        Point = 0;
+        isDead = false;
+        hungryAmount = 0;
+        SetHungry(hungryAmount);
         Instance = null;
-
+        Debug.LogError("Should Destroy");
         // destroy this persistent object
-        Destroy(gameObject);
+        Destroy(this);
     }
-    public void SetHungry(int hungryAmount)
+    public void SetHungry(float hungryAmount)
     {
         slider.value = hungryAmount;
     }

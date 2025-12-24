@@ -61,11 +61,9 @@ public class MainCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.Instance.getDeath())
-        {
-            Movement();
-            AttackAnim();
-        }
+        
+        Movement();
+        AttackAnim();
         
     }
     void AttackAnim()
@@ -157,7 +155,6 @@ public class MainCharacter : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            Debug.Log("Enemy in range");
             if (!enemiesInRange.ContainsKey(other.gameObject) && !enemiesDie.ContainsKey(other.gameObject))
             {
                 enemiesInRange.Add(other.gameObject, other.gameObject.GetComponent<Enemy>().GetEnemyInfo());
