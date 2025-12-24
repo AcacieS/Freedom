@@ -38,11 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: New Layer 4
+  - name: Background1
     uniqueID: 1058174857
     locked: 0
-  - name: Background
+  - name: Background2
     uniqueID: 4225059555
+    locked: 0
+  - name: BG3
+    uniqueID: 3523912703
     locked: 0
   - name: Ground
     uniqueID: 3105117583

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Cat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Cat
-  point: 6
+  point: 15
   speed: 10
   minRestRate: 2
   maxRestRate: 5
   minRest: 2
   maxRest: 3
+  weight: 3

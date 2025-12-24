@@ -35,7 +35,6 @@ public class SimpleGameOver : MonoBehaviour
     public void ShowGameOver()
     {
         gameOverPanel.SetActive(true);
-        Time.timeScale = 0;
         finalScoreText.text = GameManager.Instance.Point.ToString();
         finalTimeSurvivedText.text = GameManager.Instance.GetTimeSurvived().ToString("F2")+"s";
     }

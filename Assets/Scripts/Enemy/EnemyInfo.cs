@@ -10,4 +10,5 @@ public class EnemyInfo : ScriptableObject
     public float maxRestRate = 5f;
     public float minRest = 1f;
     public float maxRest = 3f;
+    public float weight;
 }

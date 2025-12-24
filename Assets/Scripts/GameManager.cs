@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     private float timeSurvived = 0f;
     private int multiplierUpdateTime = 1;
     private bool activatePowerDecrease = false;
-    // private float respawnRate = 5f;
     private float maxHealth = 100f;
 
     [Header("Enemy Settings")]
@@ -88,11 +87,22 @@ public class GameManager : MonoBehaviour
             {
                 isDead = true;
                 player_anim.SetTrigger("die");
+                StartCoroutine(DieShowing());
+                Time.timeScale = 0;
+                return;
             }
             timeSurvived += Time.deltaTime;
             MultiplierUpdate();
         }
         
+    }
+    private IEnumerator DieShowing()
+    {
+        Time.timeScale = 0;
+
+        // wait 1 second in REAL time
+        yield return new WaitForSecondsRealtime(1f);
+        SimpleGameOver.Instance.ShowGameOver();
     }
     public void RemoveAnimal()
     {
@@ -116,7 +126,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             SpawnEnemy();
-            float respawnRate = Random.Range(0.5f, 1f);
+            float respawnRate = Random.Range(0.5f, 2f);
             yield return new WaitForSeconds(respawnRate);
         }
     }
@@ -126,14 +136,36 @@ public class GameManager : MonoBehaviour
         if(nbAnimal >= maxAnimal * multiplierUpdateTime)
         {
             return;
-        } 
+        }
         nbAnimal++;
-        int randomEnemy = Random.Range(0, enemyPrefabs.Count);
+        Debug.Log("nb Animal: "+nbAnimal);
+        // int randomEnemy = Random.Range(0, enemyPrefabs.Count);
         float size = ground.transform.position.x-ground.GetComponent<SpriteRenderer>().bounds.size.x/2;
         float randomX = Random.Range(ground.transform.position.x-size+5f, ground.transform.position.x+size-5f);
         Vector3 spawnPos = new Vector3(randomX, 10f, 0f);
-        Instantiate(enemyPrefabs[randomEnemy], spawnPos, Quaternion.identity);
+        //enemyPrefabs[randomEnemy]
+        Instantiate(GetRandomEnemy(), spawnPos, Quaternion.identity);
     }
+    GameObject GetRandomEnemy()
+    {
+        float totalWeight = 0f;
+
+        foreach (var enemy in enemyPrefabs)
+            totalWeight += enemy.GetComponent<Enemy>().GetEnemyInfo().weight;
+
+        float random = Random.Range(0f, totalWeight);
+        float current = 0f;
+
+        foreach (var enemy in enemyPrefabs)
+        {
+            current += enemy.GetComponent<Enemy>().GetEnemyInfo().weight;
+            if (random <= current)
+                return enemy;
+        }
+
+        return enemyPrefabs[0]; // fallback
+    }
+
     public void Awake()
     {
         if(Instance == null)
@@ -151,7 +183,6 @@ public class GameManager : MonoBehaviour
         SetHungry(hungryAmount);
         Instance = null;
         Debug.LogError("Should Destroy");
-        // destroy this persistent object
         Destroy(this);
     }
     public void SetHungry(float hungryAmount)

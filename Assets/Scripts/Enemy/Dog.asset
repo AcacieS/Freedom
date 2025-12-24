@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Dog
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Dog
-  prefab: {fileID: 4265207918333874333, guid: 07ff2bf4746605e468daf1918142c0c2, type: 3}
-  point: 5
+  point: 12
   speed: 5
   minRestRate: 2
   maxRestRate: 5
   minRest: 1
   maxRest: 2
+  weight: 4

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Goat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Goat
-  point: 14
+  point: 8
   speed: 7
   minRestRate: 5
   maxRestRate: 7
   minRest: 6
   maxRest: 7
+  weight: 8

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Cow
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Cow
-  point: 10
+  point: 5
   speed: 7
   minRestRate: 5
   maxRestRate: 7
   minRest: 6
   maxRest: 8
+  weight: 7

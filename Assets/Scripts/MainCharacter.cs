@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -75,13 +76,14 @@ public class MainCharacter : MonoBehaviour
             anim.SetTrigger("attack");
         }
     }
-
+    [SerializeField] private AudioClip[] eatClips;
     public void Attack()
     {
         if(enemiesInRange.Count == 0) {
             return;
         }
-        
+        int clipIndex = UnityEngine.Random.Range(0, eatClips.Length);
+        SoundManager.instance.PlaySound(eatClips[clipIndex]);
         enemiesDie = new Dictionary<GameObject, EnemyInfo>();
         foreach(KeyValuePair<GameObject, EnemyInfo> enemy in enemiesInRange)
         {
