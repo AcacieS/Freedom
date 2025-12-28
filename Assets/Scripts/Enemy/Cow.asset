@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Cow
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Cow
+  sound: {fileID: 8300000, guid: 3b0b93d946585a644a2282d802c12e06, type: 3}
   point: 5
   speed: 7
   minRestRate: 5

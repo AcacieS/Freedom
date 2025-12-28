@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pointText;
     [SerializeField] private GameObject[] powerUis;
     [SerializeField] private Slider slider;
+    // [SerializeField] private ToothAnimation toothAnimation;
 
     [Header("Ground")]
     [SerializeField] private GameObject ground;
@@ -30,12 +32,14 @@ public class GameManager : MonoBehaviour
     [Header("Enemy Settings")]
     [SerializeField] private List<GameObject> enemyPrefabs;
     [SerializeField] private int maxAnimal = 10;
+    [SerializeField] private RespawnTime[] respawnTimes; 
+
     private int nbAnimal = 0;
 
     private Animator player_anim;
     private MainCharacter player;
     [SerializeField] private float hungryAmount = 0;
-    
+    private List<GameObject> enemies = new List<GameObject>();
     private bool isDead = false;
     // -------------------------------------------------- POINT ------------------------------------------------
     public bool getDeath()
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
         if(!activatePowerDecrease && point >= activatePowerNb)
         {
             activatePowerDecrease = true;
+            // StartCoroutine(toothAnimation.ToothAnim());//NextSpeedAnimation();
         }
         int pointInt = (int)point;
         pointText.text = pointInt.ToString();
@@ -75,6 +80,20 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<MainCharacter>();
         slider.maxValue = maxHealth;
         StartCoroutine("SpawnEnemyRate");
+        StartCoroutine("RandomSoundAnimal");
+    }
+    public IEnumerator RandomSoundAnimal()
+    {
+        while (true)
+        {
+            float randomWaitTimeSound = respawnTimes[multiplierUpdateTime-1].GetRandomTime();
+            yield return new WaitForSeconds(randomWaitTimeSound);
+            if (enemies.Count != 0)
+            {
+                int index_enemy = UnityEngine.Random.Range(0, enemies.Count);
+                SoundManager.instance.PlaySound(enemies[index_enemy].GetComponent<Enemy>().GetEnemyInfo().sound, true);
+            }
+        }
     }
     
     void Update()
@@ -104,15 +123,19 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         SimpleGameOver.Instance.ShowGameOver();
     }
-    public void RemoveAnimal()
+    public void RemoveAnimal(GameObject enemy)
     {
         nbAnimal--;
+        if(enemy == null){Debug.LogError("enemy null");}
+        enemies.Remove(enemy);
     }
+    
     
     private void MultiplierUpdate()
     {
         if(Point > multiplierUpdateRate*multiplierUpdateTime)
         {
+            // toothAnimation.NextSpeedAnimation();
             multiplierUpdateTime++;
             player.mc_changeBody(); 
             if(multiplierUpdateTime <= powerUis.Length) powerUis[multiplierUpdateTime-1].SetActive(true);
@@ -126,11 +149,12 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             SpawnEnemy();
-            float respawnRate = Random.Range(0.5f, 2f);
+            float respawnRate = respawnTimes[multiplierUpdateTime-1].GetRandomTime();
             yield return new WaitForSeconds(respawnRate);
         }
     }
-
+    public static int frontPlayer = 1;
+    public static int backPlayer = 1;
     private void SpawnEnemy()
     {
         if(nbAnimal >= maxAnimal * multiplierUpdateTime)
@@ -139,13 +163,32 @@ public class GameManager : MonoBehaviour
         }
         nbAnimal++;
         Debug.Log("nb Animal: "+nbAnimal);
-        // int randomEnemy = Random.Range(0, enemyPrefabs.Count);
         float size = ground.transform.position.x-ground.GetComponent<SpriteRenderer>().bounds.size.x/2;
-        float randomX = Random.Range(ground.transform.position.x-size+5f, ground.transform.position.x+size-5f);
+        float randomX = UnityEngine.Random.Range(ground.transform.position.x-size+5f, ground.transform.position.x+size-5f);
         Vector3 spawnPos = new Vector3(randomX, 10f, 0f);
-        //enemyPrefabs[randomEnemy]
-        Instantiate(GetRandomEnemy(), spawnPos, Quaternion.identity);
+        GameObject enemy = Instantiate(GetRandomEnemy(), spawnPos, Quaternion.identity);
+        SpriteRenderer sr = enemy.GetComponent<SpriteRenderer>();
+        bool isFront = UnityEngine.Random.Range(0, 2) == 0;
+
+        if (isFront)
+        {
+            sr.sortingLayerName = "FrontPlayer";
+            
+            Debug.Log("Front: "+frontPlayer);
+            sr.sortingOrder = frontPlayer;
+            frontPlayer++;
+        }
+        else
+        {
+            sr.sortingLayerName = "BackPlayer";
+            
+            Debug.Log("Back: "+backPlayer);
+            sr.sortingOrder = backPlayer;
+            backPlayer++;
+        }
+        enemies.Add(enemy);
     }
+    
     GameObject GetRandomEnemy()
     {
         float totalWeight = 0f;
@@ -153,7 +196,7 @@ public class GameManager : MonoBehaviour
         foreach (var enemy in enemyPrefabs)
             totalWeight += enemy.GetComponent<Enemy>().GetEnemyInfo().weight;
 
-        float random = Random.Range(0f, totalWeight);
+        float random = UnityEngine.Random.Range(0f, totalWeight);
         float current = 0f;
 
         foreach (var enemy in enemyPrefabs)
@@ -194,4 +237,14 @@ public class GameManager : MonoBehaviour
         return timeSurvived;
     }
 
+}
+[Serializable]
+public class RespawnTime
+{
+    public float minTime;
+    public float maxTime;
+    public float GetRandomTime()
+    {
+        return UnityEngine.Random.Range(minTime, maxTime);
+    }
 }

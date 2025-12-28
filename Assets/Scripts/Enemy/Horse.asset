@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Horse
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Horse
+  sound: {fileID: 8300000, guid: f6fb30b6ad109e64f8898ed56d2dd30a, type: 3}
   point: 7
   speed: 9
   minRestRate: 5

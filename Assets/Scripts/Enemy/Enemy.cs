@@ -20,7 +20,8 @@ public abstract class Enemy : MonoBehaviour
         startScale = transform.localScale;
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sortingOrder = Random.Range(0, 2) == 0? 1: -1;
+        // spriteRenderer.sortingOrder = Random.Range(0, 2) == 0? 1: -1;
+
         impulseSource = GetComponent<CinemachineImpulseSource>();
     }
     public EnemyInfo GetEnemyInfo()

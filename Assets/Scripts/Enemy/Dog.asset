@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Dog
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Dog
+  sound: {fileID: 8300000, guid: 49697114d9f7b01489831e567ce06c33, type: 3}
   point: 12
   speed: 5
   minRestRate: 2

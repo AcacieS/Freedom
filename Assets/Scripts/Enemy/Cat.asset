@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Cat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Cat
+  sound: {fileID: 8300000, guid: 5934e87a867480e4fae479f8181cf571, type: 3}
   point: 15
   speed: 10
   minRestRate: 2

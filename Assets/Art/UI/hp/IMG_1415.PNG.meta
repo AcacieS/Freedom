@@ -128,12 +128,12 @@ TextureImporter:
       name: IMG_1415_0
       rect:
         serializedVersion: 2
-        x: 777
-        y: 1043
-        width: 384
-        height: 207
+        x: 776
+        y: 1000
+        width: 387
+        height: 272
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -150,20 +150,20 @@ TextureImporter:
       name: IMG_1415_1
       rect:
         serializedVersion: 2
-        x: 828
-        y: 982
-        width: 110
-        height: 62
+        x: 829
+        y: 983
+        width: 108
+        height: 60
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ca6992e0f30ce75f0800000000000000
-      internalID: -756956310298585428
+      spriteID: 4c0311601641475449a33b10dc2b99ec
+      internalID: 1826101388
       vertices: []
       indices: 
       edges: []
@@ -172,20 +172,20 @@ TextureImporter:
       name: IMG_1415_2
       rect:
         serializedVersion: 2
-        x: 1006
+        x: 1007
         y: 1016
-        width: 61
-        height: 8
+        width: 57
+        height: 7
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 758b49cb97b633720800000000000000
-      internalID: 2824719561890510935
+      spriteID: 6f5893f8e78d99944a133385ec2cdca7
+      internalID: -214379622
       vertices: []
       indices: 
       edges: []
@@ -194,20 +194,20 @@ TextureImporter:
       name: IMG_1415_3
       rect:
         serializedVersion: 2
-        x: 1087
-        y: 990
-        width: 36
-        height: 36
+        x: 1088
+        y: 991
+        width: 34
+        height: 34
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3a1823731b6cdc3c0800000000000000
-      internalID: -4337592401650351709
+      spriteID: f9f95986033e3f44b8abee745edcb257
+      internalID: 332383289
       vertices: []
       indices: 
       edges: []
@@ -216,20 +216,20 @@ TextureImporter:
       name: IMG_1415_4
       rect:
         serializedVersion: 2
-        x: 937
+        x: 938
         y: 978
-        width: 143
-        height: 29
+        width: 141
+        height: 28
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4e2bb4c0cbd076440800000000000000
-      internalID: 4928923418491597540
+      spriteID: 1a7bc52e43d707e45bdd991139949d8b
+      internalID: -1040712029
       vertices: []
       indices: 
       edges: []
@@ -238,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: bce5fcf6ee1820f4da0672dd918b9a99
     internalID: 0
     vertices: []
     indices: 
@@ -246,13 +246,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       IMG_1415_0: 4449964283756416640
-      IMG_1415_1: -756956310298585428
-      IMG_1415_2: 2824719561890510935
-      IMG_1415_3: -4337592401650351709
-      IMG_1415_4: 4928923418491597540
+      IMG_1415_1: 1826101388
+      IMG_1415_2: -214379622
+      IMG_1415_3: 332383289
+      IMG_1415_4: -1040712029
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

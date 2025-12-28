@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyInfo : ScriptableObject
 {
     public string type;
+    public AudioClip sound;
     public float point = 1f;
     public float speed = 3f;
     public float minRestRate = 2f;
@@ -11,4 +12,5 @@ public class EnemyInfo : ScriptableObject
     public float minRest = 1f;
     public float maxRest = 3f;
     public float weight;
+    
 }

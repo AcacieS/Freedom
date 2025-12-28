@@ -23,6 +23,8 @@ public class MainCharacter : MonoBehaviour
     [SerializeField] private AnimatorOverrideController[] mcAnimOverride;
     private int currentState = 0;
     [SerializeField] private ParticleSystem bloodParticles;
+    [SerializeField] private ToothAnimation toothAnimation;
+
     private bool isAttacking = false;
     
     void Start()
@@ -74,6 +76,7 @@ public class MainCharacter : MonoBehaviour
             if(isAttacking) return;
             isAttacking = true;
             anim.SetTrigger("attack");
+            toothAnimation.AnimTooth();
         }
     }
     [SerializeField] private AudioClip[] eatClips;
@@ -92,7 +95,8 @@ public class MainCharacter : MonoBehaviour
             InitScore(enemy.Value.point, enemy.Key);
             SpawnParticle(enemy.Key);
             enemiesDie.Add(enemy.Key, enemy.Value);
-            GameManager.Instance.RemoveAnimal();
+            GameManager.Instance.RemoveAnimal(enemy.Key);
+
         }
         foreach(KeyValuePair<GameObject, EnemyInfo> enemy in enemiesDie)
         {

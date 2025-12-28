@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Goat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyInfo
   type: Goat
+  sound: {fileID: 8300000, guid: d2f2c41cab904224aa379304a9ebdb38, type: 3}
   point: 8
   speed: 7
   minRestRate: 5
