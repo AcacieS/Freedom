@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     private MainCharacter player;
     [SerializeField] private float hungryAmount = 0;
     private List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] private SwitchBG bgScript;
     private bool isDead = false;
     // -------------------------------------------------- POINT ------------------------------------------------
     public bool getDeath()
@@ -130,15 +131,23 @@ public class GameManager : MonoBehaviour
         enemies.Remove(enemy);
     }
     
-    
+    [SerializeField] private int[] timeUpdateBGs;
     private void MultiplierUpdate()
     {
         if(Point > multiplierUpdateRate*multiplierUpdateTime)
         {
+            if(Point> multiplierUpdateRate * timeUpdateBGs[1])
+            {
+                bgScript.SwitchNextBG();
+            }else if (Point > multiplierUpdateRate*timeUpdateBGs[0] && Point <= multiplierUpdateRate*(timeUpdateBGs[0]+1))
+            {
+                bgScript.SwitchNextBG();
+            }
             // toothAnimation.NextSpeedAnimation();
             multiplierUpdateTime++;
+            
             player.mc_changeBody(); 
-            if(multiplierUpdateTime <= powerUis.Length) powerUis[multiplierUpdateTime-1].SetActive(true);
+            if(multiplierUpdateTime <= powerUis.Length) powerUis[multiplierUpdateTime-2].SetActive(true);
             multiplier = multiplier + multiplierUpdateAdd;
         }
         
